@@ -42,7 +42,7 @@ const ImportExportBtn = styled.div`
 `
 
 const AdvancedModule: React.FC = () => {
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
   const [typeChoosed, setTypeChoosed] = useState<DataType>('attack')
 
   const dispatch = useDispatch()

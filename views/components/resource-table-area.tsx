@@ -99,7 +99,7 @@ const AkashicResourceTableArea: React.FC<AkashicResourceTableAreaT> = ({ content
   )
   const { tabVisibility, activePage, showAmount, showTimeScale, filterKeys, logs, paginationItems } = useSelector(selector)
   const dispatch = useDispatch()
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const handleKeywordChange = useCallback((keyword: string) => {
     dispatch(setFilterKey(0, keyword, contentType))

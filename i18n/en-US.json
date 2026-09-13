@@ -1,3 +1,9 @@
 {
-  "Search Result No {{index}}": "Search Result No. {{index}}"
+  "Search Result No {{index}}": "Search Result No. {{index}}",
+  "MigrationNoticeTitle": "Original Logbook plugin detected",
+  "MigrationNoticeShared": "This plugin extends the original Logbook and shares the same data folder, so all of your existing records will show up here once the original plugin is removed.",
+  "MigrationNoticeConflict": "Running both plugins at once would log every record twice, so the logbook stays hidden until the original plugin is uninstalled:",
+  "MigrationNoticeStep1": "Open poi settings and go to the plugin list.",
+  "MigrationNoticeStep2": "Uninstall \"Logbook\" (poi-plugin-akashic-records).",
+  "MigrationNoticeAuto": "The logbook appears here as soon as the original plugin is removed or disabled - no restart needed."
 }

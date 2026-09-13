@@ -113,7 +113,7 @@ const getSelector = memoize((dataType: DataType): Selector<LogContentState, Sele
 })
 
 const AkashicRecordsStatisticsPanel: React.FC<AkashicRecordsStatisticsPanelT> = ({ contentType }) => {
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
   const selector: Selector<IState, SelectorResult> = createSelector(
     logContentSelectorFactory(contentType),
     getSelector(contentType)

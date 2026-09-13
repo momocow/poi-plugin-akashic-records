@@ -34,7 +34,7 @@ interface GlobalFilterKeysAction extends FilterKeysAction {
 
 export function addLog(log: DataRow, type: DataType): GlobalDataAction {
   return {
-    type: '@@poi-plugin-akashic-records/ADD_LOG',
+    type: '@@poi-plugin-akashic-records-ex/ADD_LOG',
     dataType: type,
     log: log,
   }
@@ -42,7 +42,7 @@ export function addLog(log: DataRow, type: DataType): GlobalDataAction {
 
 export function initializeLogs(logs: DataRow[], type: DataType): GlobalDataAction {
   return {
-    type: '@@poi-plugin-akashic-records/INITIALIZE_LOGS',
+    type: '@@poi-plugin-akashic-records-ex/INITIALIZE_LOGS',
     dataType: type,
     logs: logs,
   }
@@ -50,7 +50,7 @@ export function initializeLogs(logs: DataRow[], type: DataType): GlobalDataActio
 
 export function setTabVisibility(index: number, val: boolean, type: DataType): TabVisibilityAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_TAB_VISIBILITY',
+    type: '@@poi-plugin-akashic-records-ex/SET_TAB_VISIBILITY',
     dataType: type,
     index: index,
     val: val,
@@ -59,7 +59,7 @@ export function setTabVisibility(index: number, val: boolean, type: DataType): T
 
 export function setActivePage(val: number, type: DataType): GlobalActivePageAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_ACTIVE_PAGE',
+    type: '@@poi-plugin-akashic-records-ex/SET_ACTIVE_PAGE',
     dataType: type,
     val: val,
   }
@@ -67,14 +67,14 @@ export function setActivePage(val: number, type: DataType): GlobalActivePageActi
 
 export function resetActivePage(type: DataType): GlobalActivePageAction {
   return {
-    type: '@@poi-plugin-akashic-records/RESET_ACTIVE_PAGE',
+    type: '@@poi-plugin-akashic-records-ex/RESET_ACTIVE_PAGE',
     dataType: type,
   }
 }
 
 export function setShowAmount(val: number, type: DataType): GlobalShowAmountAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_SHOW_AMOUNT',
+    type: '@@poi-plugin-akashic-records-ex/SET_SHOW_AMOUNT',
     dataType: type,
     val: val,
   }
@@ -82,35 +82,35 @@ export function setShowAmount(val: number, type: DataType): GlobalShowAmountActi
 
 export function showCheckboxPanel(type: DataType): CheckboxVisibleAction {
   return {
-    type: '@@poi-plugin-akashic-records/SHOW_CHECKBOX_PANEL',
+    type: '@@poi-plugin-akashic-records-ex/SHOW_CHECKBOX_PANEL',
     dataType: type,
   }
 }
 
 export function hiddenCheckboxPanel(type: DataType): CheckboxVisibleAction {
   return {
-    type: '@@poi-plugin-akashic-records/HIDDEN_CHECKBOX_PANEL',
+    type: '@@poi-plugin-akashic-records-ex/HIDDEN_CHECKBOX_PANEL',
     dataType: type,
   }
 }
 
 export function showStatisticsPanel(type: DataType): StatisticsVisibleAction {
   return {
-    type: '@@poi-plugin-akashic-records/SHOW_STATISTICS_PANEL',
+    type: '@@poi-plugin-akashic-records-ex/SHOW_STATISTICS_PANEL',
     dataType: type,
   }
 }
 
 export function hiddenStatisticsPanel(type: DataType): StatisticsVisibleAction {
   return {
-    type: '@@poi-plugin-akashic-records/HIDDEN_STATICTICS_PANEL',
+    type: '@@poi-plugin-akashic-records-ex/HIDDEN_STATICTICS_PANEL',
     dataType: type,
   }
 }
 
 export function setTimeScale(val: TimeScale, type: DataType): TimeScaleAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_TIME_SCALE',
+    type: '@@poi-plugin-akashic-records-ex/SET_TIME_SCALE',
     val: val,
     dataType: type,
   }
@@ -119,14 +119,14 @@ export function setTimeScale(val: TimeScale, type: DataType): TimeScaleAction {
 
 export function addSearchRule(type: DataType): GlobalSearchRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/ADD_SEARCH_RULE',
+    type: '@@poi-plugin-akashic-records-ex/ADD_SEARCH_RULE',
     dataType: type,
   }
 }
 
 export function setSearchRuleBase(index: number, baseon: number, type: DataType): GlobalSearchRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_SEARCH_RULE_BASE',
+    type: '@@poi-plugin-akashic-records-ex/SET_SEARCH_RULE_BASE',
     dataType: type,
     index: index,
     val: baseon,
@@ -135,7 +135,7 @@ export function setSearchRuleBase(index: number, baseon: number, type: DataType)
 
 export function setSearchRuleKey(index: number, key: string, type: DataType): GlobalSearchRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_SEARCH_RULE_KEY',
+    type: '@@poi-plugin-akashic-records-ex/SET_SEARCH_RULE_KEY',
     dataType: type,
     index: index,
     val: key,
@@ -144,7 +144,7 @@ export function setSearchRuleKey(index: number, key: string, type: DataType): Gl
 
 export function deleteSearchRule(index: number, type: DataType): GlobalSearchRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/DELETE_SEARCH_RULE',
+    type: '@@poi-plugin-akashic-records-ex/DELETE_SEARCH_RULE',
     dataType: type,
     index: index,
   }
@@ -152,14 +152,14 @@ export function deleteSearchRule(index: number, type: DataType): GlobalSearchRul
 
 export function addStatisticsRule(type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/ADD_STATISTICS_RULE',
+    type: '@@poi-plugin-akashic-records-ex/ADD_STATISTICS_RULE',
     dataType: type,
   }
 }
 
 export function setStatisticsRuleNumeratorType(index: number, ntype: number, type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR_TYPE',
+    type: '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR_TYPE',
     dataType: type,
     index: index,
     val: ntype,
@@ -168,7 +168,7 @@ export function setStatisticsRuleNumeratorType(index: number, ntype: number, typ
 
 export function setStatisticsRuleDenominatorType(index: number, dtype: number, type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR_TYPE',
+    type: '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR_TYPE',
     dataType: type,
     index: index,
     val: dtype,
@@ -177,7 +177,7 @@ export function setStatisticsRuleDenominatorType(index: number, dtype: number, t
 
 export function setStatisticsRuleNumerator(index: number, n: number, type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR',
+    type: '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR',
     dataType: type,
     index: index,
     val: n,
@@ -186,7 +186,7 @@ export function setStatisticsRuleNumerator(index: number, n: number, type: DataT
 
 export function setStatisticsRuleDenominator(index: number, d: number, type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR',
+    type: '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR',
     dataType: type,
     index: index,
     val: d,
@@ -195,7 +195,7 @@ export function setStatisticsRuleDenominator(index: number, d: number, type: Dat
 
 export function deleteStatisticsRule(index: number, type: DataType): GlobalStatisticsRulesAction {
   return {
-    type: '@@poi-plugin-akashic-records/DELETE_STATISTICS_RULE',
+    type: '@@poi-plugin-akashic-records-ex/DELETE_STATISTICS_RULE',
     dataType: type,
     index: index,
   }
@@ -204,7 +204,7 @@ export function deleteStatisticsRule(index: number, type: DataType): GlobalStati
 
 export function setFilterKey(index: number, key: string, type: DataType): GlobalFilterKeysAction {
   return {
-    type: '@@poi-plugin-akashic-records/SET_FILTER_KEY',
+    type: '@@poi-plugin-akashic-records-ex/SET_FILTER_KEY',
     dataType: type,
     index: index,
     val: key,

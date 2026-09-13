@@ -67,7 +67,7 @@ const AkashicResourceChart: React.FC = () => {
 
   const isDarkTheme = useSelector(state => get(state, 'config.poi.appearance.theme', 'dark') === 'dark')
 
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const [timeScale, setTimeScale] = useState<TimeScale>(() => toTimeScale(
     config.get("plugin.Akashic.resource.chart.timeScale",

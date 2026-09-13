@@ -69,7 +69,7 @@ const AkashicRecordsCheckboxPanel: React.FC<AkashicRecordsCheckboxPanelT> = ({ c
     [contentType]
   )
 
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const tableTab = getTabs(contentType)
 

@@ -2,6 +2,7 @@ import { join } from 'path'
 import React, { ErrorInfo } from 'react'
 import { Tabs, Tab } from '@blueprintjs/core'
 import { WithTranslation, withTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 
 import CONST from '../lib/constant'
 
@@ -10,6 +11,8 @@ import AkashicResourceLog from './akashic-resource-log'
 import AkashicAdvancedModule from './components/advanced-module'
 
 import ErrorBoundary from './error-boundary'
+import OriginalPluginNotice from './components/original-plugin-notice'
+import { isOriginalPluginActive } from './utils/original-plugin'
 
 // getUseItem: (id)->
 //   switch id
@@ -40,7 +43,7 @@ interface State {
   selectedKey: number;
 }
 
-export const reactClass = withTranslation('poi-plugin-akashic-records')(
+const LogbookTabs = withTranslation('poi-plugin-akashic-records-ex')(
   class innerReactClass extends React.Component<WithTranslation, State> {
     state = {
       selectedKey: 0,
@@ -76,33 +79,44 @@ export const reactClass = withTranslation('poi-plugin-akashic-records')(
       const { t } = this.props
 
       return (
-        <div id='akashic-records-main-wrapper'>
-          <link rel="stylesheet" href={join(__dirname, '..', 'assets', 'main.css')} />
-          <Tabs id="" ref={this.tabRef} selectedTabId={this.state.selectedKey} onChange={this.handleSelectTab}>
-            <Tab id={0} title={t("Sortie")} panel={
-              <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.attack}/>
-            } />
-            <Tab id={1} title={t("Expedition")} panel={
-              <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.mission}/>
-            } />
-            <Tab id={2} title={t("Construction")} panel={
-              <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.createShip}/>
-            } />
-            <Tab id={3} title={t("Development")} panel={
-              <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.createItem}/>
-            } />
-            <Tab id={4} title={t("Retirement")} panel={
-              <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.retirement}/>
-            } />
-            <Tab id={5} title={t("Resource")} panel={
-              <ErrorBoundary component={AkashicResourceLog} />
-            } />
-            <Tab id={6} title={t("Others")} panel={
-              <ErrorBoundary component={AkashicAdvancedModule} />
-            } />
-          </Tabs>
-        </div>
+        <Tabs id="" ref={this.tabRef} selectedTabId={this.state.selectedKey} onChange={this.handleSelectTab}>
+          <Tab id={0} title={t("Sortie")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.attack}/>
+          } />
+          <Tab id={1} title={t("Expedition")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.mission}/>
+          } />
+          <Tab id={2} title={t("Construction")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.createShip}/>
+          } />
+          <Tab id={3} title={t("Development")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.createItem}/>
+          } />
+          <Tab id={4} title={t("Retirement")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.retirement}/>
+          } />
+          <Tab id={5} title={t("Resource")} panel={
+            <ErrorBoundary component={AkashicResourceLog} />
+          } />
+          <Tab id={6} title={t("Others")} panel={
+            <ErrorBoundary component={AkashicAdvancedModule} />
+          } />
+        </Tabs>
       )
     }
   }
 )
+
+// While the original plugin is running it owns the shared data files, so the
+// logbook is replaced by the migration notice until it is gone. Driven from the
+// store so installing or uninstalling it takes effect without restarting poi.
+export const reactClass: React.FC = () => {
+  const originalActive = useSelector(isOriginalPluginActive)
+
+  return (
+    <div id='akashic-records-main-wrapper'>
+      <link rel="stylesheet" href={join(__dirname, '..', 'assets', 'main.css')} />
+      {originalActive ? <OriginalPluginNotice /> : <LogbookTabs />}
+    </div>
+  )
+}

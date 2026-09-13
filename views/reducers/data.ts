@@ -10,9 +10,9 @@ export interface DataAction {
 
 const reducer: Reducer<DataTable, DataAction> = (state = [], action) => {
   switch (action.type) {
-  case '@@poi-plugin-akashic-records/ADD_LOG':
+  case '@@poi-plugin-akashic-records-ex/ADD_LOG':
     return action.log ? [action.log, ...state] : state
-  case '@@poi-plugin-akashic-records/INITIALIZE_LOGS':
+  case '@@poi-plugin-akashic-records-ex/INITIALIZE_LOGS':
     return action.logs || state
   default:
     return state

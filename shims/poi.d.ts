@@ -28,6 +28,14 @@ declare module 'views/utils/selectors' {
     const: IConstState
     config: any,
     ext: any
+    plugins: IPluginInfo[]
+  }
+
+  /** poi's own record of an installed plugin, kept in `state.plugins`. */
+  export interface IPluginInfo {
+    packageName: string
+    id: string
+    enabled: boolean
   }
 
   export interface IConstState {
@@ -87,8 +95,12 @@ declare module 'views/utils/ship-img' {
 
 
 declare module 'views/create-store' {
+  import { IState } from 'views/utils/selectors'
+
   export type Store = {
     dispatch: (action: object) => void
+    getState: () => IState
+    subscribe: (listener: () => void) => () => void
   }
   export const store: Store
 }

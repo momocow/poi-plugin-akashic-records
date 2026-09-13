@@ -15,9 +15,9 @@ export interface ShowAmountAction {
 
 export const activePage: Reducer<number, ActivePageAction> = (state = 1, action): number => {
   switch (action.type) {
-  case '@@poi-plugin-akashic-records/SET_ACTIVE_PAGE':
+  case '@@poi-plugin-akashic-records-ex/SET_ACTIVE_PAGE':
     return action.val || state
-  case '@@poi-plugin-akashic-records/RESET_ACTIVE_PAGE':
+  case '@@poi-plugin-akashic-records-ex/RESET_ACTIVE_PAGE':
     return 1
   default:
     return state
@@ -29,7 +29,7 @@ export const showAmount: Reducer<number, ShowAmountAction> = (state = -1, action
     state = config.get(`plugin.Akashic.${action.dataType}.showAmount`, 20)
     state = Math.min(state, 100)
   }
-  if (action.type === '@@poi-plugin-akashic-records/SET_SHOW_AMOUNT') {
+  if (action.type === '@@poi-plugin-akashic-records-ex/SET_SHOW_AMOUNT') {
     return action.val
   } else {
     return state

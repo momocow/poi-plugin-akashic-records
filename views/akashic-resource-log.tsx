@@ -27,7 +27,7 @@ const AkashicResourceTable = () => (
 
 const AkashicResourceLog: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('table')
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
   const handleSelectTab = useCallback((newTabId: TabId) => setActiveTab(newTabId), [])
   return (
     <div>

@@ -68,7 +68,7 @@ export const tabVisibility: Reducer<TabVisibilityState, TabVisibilityAction> = (
     state = JSON.parse(config.get(`plugin.Akashic.${action.dataType}.checkbox`,
       JSON.stringify(defaultTabVisibility))) as boolean[]
   }
-  if (action.type === '@@poi-plugin-akashic-records/SET_TAB_VISIBILITY') {
+  if (action.type === '@@poi-plugin-akashic-records-ex/SET_TAB_VISIBILITY') {
     return [
       ...state.slice(0, action.index),
       action.val,

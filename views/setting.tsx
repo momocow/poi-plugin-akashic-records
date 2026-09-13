@@ -19,7 +19,7 @@ const dataPathSelector: Selector<IState, string> = state => get(state.config, CO
 export const settingsClass: React.FC = () => {
   const lock = useRef(false)
 
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const configPath = useSelector(dataPathSelector)
 

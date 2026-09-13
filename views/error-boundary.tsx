@@ -14,7 +14,7 @@ interface State {
   info?: ErrorInfo;
 }
 
-const ErrorBoundary = withTranslation('poi-plugin-akashic-records')(
+const ErrorBoundary = withTranslation('poi-plugin-akashic-records-ex')(
   class InnerErrorBoundary extends Component<Props, State> {
     state: State = {
       hasError: false,

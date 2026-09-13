@@ -99,7 +99,7 @@ interface TbodyItemT {
 }
 
 const AkashicRecordsTableTbodyItem: React.FC<TbodyItemT> = ({ data, contentType, index, tabVisibility }) => {
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
   return (
     <tr>
       <td>
@@ -161,7 +161,7 @@ const AkashicRecordsTableArea: React.FC<AkashicRecordsTableAreaT> = ({ contentTy
   )
   const { tabVisibility, activePage, showAmount, filterKeys, configListChecked, logs, paginationItems } = useSelector(selector)
   const dispatch = useDispatch()
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const handleKeywordChange = useCallback((index: number, keyword: string) => {
     dispatch(setFilterKey(index, keyword, contentType))

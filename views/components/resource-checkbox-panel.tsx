@@ -41,7 +41,7 @@ const AkashicResourceCheckboxArea: React.FC<AkashicResourceCheckboxAreaT> = ({ c
     checkboxStateSelector
   )
   const { tabVisibility } = useSelector(selector)
-  const { t } = useTranslation('poi-plugin-akashic-records')
+  const { t } = useTranslation('poi-plugin-akashic-records-ex')
   const dispatch = useDispatch()
 
   const handleClickCheckbox = useCallback((index: number) => {

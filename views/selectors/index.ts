@@ -39,7 +39,7 @@ const empty: PluginState = {
 }
 
 export const pluginDataSelector: Selector<IState, PluginState> = createSelector(
-  extensionSelectorFactory('poi-plugin-akashic-records'),
+  extensionSelectorFactory('poi-plugin-akashic-records-ex'),
   (state) => state as PluginState || empty
 )
 

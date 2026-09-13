@@ -32,14 +32,14 @@ export default function (type: DataType) {
   const reducer: LogContentReducer = (state, action, store) => {
     if (action.dataType === type) {
       const ret = logContent(state, action)
-      if (['@@poi-plugin-akashic-records/INITIALIZE_LOGS', '@@poi-plugin-akashic-records/SET_FILTER_KEY',
-        '@@poi-plugin-akashic-records/SET_SHOW_AMOUNT', '@@poi-plugin-akashic-records/SET_ACTIVE_PAGE',
-        '@@poi-plugin-akashic-records/SET_TIME_SCALE'].includes(action.type))
+      if (['@@poi-plugin-akashic-records-ex/INITIALIZE_LOGS', '@@poi-plugin-akashic-records-ex/SET_FILTER_KEY',
+        '@@poi-plugin-akashic-records-ex/SET_SHOW_AMOUNT', '@@poi-plugin-akashic-records-ex/SET_ACTIVE_PAGE',
+        '@@poi-plugin-akashic-records-ex/SET_TIME_SCALE'].includes(action.type))
         return boundActivePageNum(ret, type, store)
       return ret
     } else if (state == null) {
       return logContent(state, {
-        type: '@@poi-plugin-akashic-records/NONE',
+        type: '@@poi-plugin-akashic-records-ex/NONE',
         dataType: type,
       })
     } else

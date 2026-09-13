@@ -27,27 +27,27 @@ const defaultStatisticsRule = {
 
 const statisticsRule: Reducer<StatisticsRule, StatisticsRulesAction> = (state, action) => {
   switch (action.type) {
-  case '@@poi-plugin-akashic-records/ADD_STATISTICS_RULE':
+  case '@@poi-plugin-akashic-records-ex/ADD_STATISTICS_RULE':
     return defaultStatisticsRule
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR_TYPE':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR_TYPE':
     return {
       ...defaultStatisticsRule,
       ...state,
       numeratorType: action.val || 0,
     }
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR_TYPE':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR_TYPE':
     return {
       ...defaultStatisticsRule,
       ...state,
       denominatorType: action.val || 0,
     }
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR':
     return {
       ...defaultStatisticsRule,
       ...state,
       numerator: action.val || 0,
     }
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR':
     return {
       ...defaultStatisticsRule,
       ...state,
@@ -71,26 +71,26 @@ function deleteIndex(old: number, del: number) {
 
 const reducer: Reducer<StatisticsRulesState, StatisticsRulesAction> = (state, action) => {
   if (state == null) {
-    state = [statisticsRule(undefined, {type: '@@poi-plugin-akashic-records/ADD_STATISTICS_RULE'})]
+    state = [statisticsRule(undefined, {type: '@@poi-plugin-akashic-records-ex/ADD_STATISTICS_RULE'})]
   }
   switch (action.type) {
-  case '@@poi-plugin-akashic-records/ADD_STATISTICS_RULE':
+  case '@@poi-plugin-akashic-records-ex/ADD_STATISTICS_RULE':
     return [...state, statisticsRule(undefined, action)]
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR_TYPE':
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR_TYPE':
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_NUMERATOR':
-  case '@@poi-plugin-akashic-records/SET_STATISTICS_RULE_DENOMINATOR':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR_TYPE':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR_TYPE':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_NUMERATOR':
+  case '@@poi-plugin-akashic-records-ex/SET_STATISTICS_RULE_DENOMINATOR':
     return [
       ...state.slice(0, action.index),
       statisticsRule(state[action.index || 0], action),
       ...state.slice((action.index || 0) + 1),
     ]
-  case '@@poi-plugin-akashic-records/DELETE_STATISTICS_RULE':
+  case '@@poi-plugin-akashic-records-ex/DELETE_STATISTICS_RULE':
     return [
       ...state.slice(0, action.index),
       ...state.slice((action.index || 0) + 1),
     ]
-  case '@@poi-plugin-akashic-records/DELETE_SEARCH_RULE':
+  case '@@poi-plugin-akashic-records-ex/DELETE_SEARCH_RULE':
     return state.map((item) => {
       const { numeratorType, denominatorType } = item
       const { index = 0 } = action

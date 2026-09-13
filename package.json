@@ -1,5 +1,5 @@
 {
-  "name": "poi-plugin-akashic-records",
+  "name": "poi-plugin-akashic-records-ex",
   "version": "8.3.2",
   "description": "logbook plugin for poi",
   "main": "index.js",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yudachi/plugin-Akashic-records.git"
+    "url": "https://github.com/momocow/poi-plugin-akashic-records.git"
   },
   "keywords": [
     "kancolle",
@@ -32,9 +32,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yudachi/plugin-Akashic-records/issues"
+    "url": "https://github.com/momocow/poi-plugin-akashic-records/issues"
   },
-  "homepage": "https://github.com/yudachi/plugin-Akashic-records",
+  "homepage": "https://github.com/momocow/poi-plugin-akashic-records",
   "dependencies": {
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.2",
@@ -76,7 +76,7 @@
     "typescript": "^4.5.4"
   },
   "poiPlugin": {
-    "title": "Logbook",
+    "title": "Logbook EX",
     "description": "Logs",
     "icon": "fa/book",
     "priority": 10,
