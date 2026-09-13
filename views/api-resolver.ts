@@ -11,6 +11,8 @@ import { APIShip } from 'kcsapi/api_port/port/response'
 import { APIDeck } from 'kcsapi/api_get_member/preset_deck/response'
 import { APIGetItem } from 'kcsapi/api_req_mission/result/response'
 import { DataType } from './reducers/tab'
+import { questCategoryName } from './utils/quest-category'
+import { formatQuestRewards, RewardEntry, REWARD_MATERIAL_TOKENS } from './utils/quest-reward'
 
 const { config } = window
 
@@ -49,8 +51,30 @@ interface BattleResultDetail {
 }
 type BattleResultEvent = CustomEvent<BattleResultDetail>
 
+/**
+ * A quest completion bonus. `api_item`'s shape varies with `api_type`, and the
+ * pinned kcsapi types predate some of its fields, so the reward is identified
+ * by whichever discriminating field is present rather than by type.
+ */
+interface QuestBonus {
+  api_type: number
+  api_count: number
+  api_item?: {
+    api_id?: number
+    api_name?: string
+    api_ship_id?: number
+    api_slotitem_level?: number
+  }
+}
+
 const judgeIfDemage = (nowHp: number[], beforeHp: number[]) => {
   return nowHp.some((hp, i) => hp < beforeHp[i])
+}
+
+const questEventLabels: Record<string, string> = {
+  '/kcsapi/api_req_quest/start': 'Start',
+  '/kcsapi/api_req_quest/stop': 'Stop',
+  '/kcsapi/api_req_quest/clearitemget': 'Complete',
 }
 
 const timeToBString = (time: number) => {
@@ -71,6 +95,11 @@ class APIResolver {
   private compatible = true
   private store: Store
   private nickNameId = config.get('plugin.Akashic.nickNameId', '0')
+
+  // Quests seen in `api_get_member/questlist`. The game fetches that list before
+  // a quest can be started, so this covers `start`, which poi's `activeQuests`
+  // cannot: a quest only becomes active *after* it has been started.
+  private questInfo: Record<string, { title: string; category: number }> = {}
   private nowDate = 0
   private enableRecord = false
   private isStart = true
@@ -177,6 +206,87 @@ class APIResolver {
     return dangerInfo
   }
 
+  // `poi-plugin-quest-info` and its successor `-2` both publish the wiki id
+  // (B1, Bd5, ...) under the legacy plugin's ext key, which is also where poi's
+  // own task panel reads it from. Falls back to the numeric api id so the event
+  // is still identifiable when neither quest plugin is installed.
+  getQuestWikiId = (questId: string | number): string => {
+    const ext = window.getStore('ext') as
+      Record<string, { _?: { quests?: Record<string, { wiki_id?: string }> } }> | undefined
+    return ext?.['poi-plugin-quest-info']?._?.quests?.[String(questId)]?.wiki_id || String(questId)
+  }
+
+  getActiveQuestDetail = (questId: string | number) => {
+    const activeQuests = window.getStore('info.quests.activeQuests') as
+      Record<string, { detail?: { api_title?: string; api_category?: number } }> | undefined
+    return activeQuests?.[String(questId)]?.detail
+  }
+
+  getQuestTitle = (questId: string | number): string =>
+    this.questInfo[String(questId)]?.title || this.getActiveQuestDetail(questId)?.api_title || ''
+
+  // poi colours a quest by `api_category`, so the category is recorded rather
+  // than inferred from the wiki id: the limited-time quests (L...) have no
+  // letter that implies one.
+  getQuestCategory = (questId: string | number): string =>
+    questCategoryName(
+      this.questInfo[String(questId)]?.category ??
+        this.getActiveQuestDetail(questId)?.api_category,
+    )
+
+  // A reward that cannot be named is still recorded, as `#type:id`, rather than
+  // dropped: a silently missing reward is indistinguishable from a quest that
+  // granted nothing. A bare id is only resolved when exactly one master table
+  // knows it, since ids are not unique across tables and a wrong name would be
+  // worse than an honest placeholder.
+  getQuestRewardName = (bonus: QuestBonus): string => {
+    const item = bonus.api_item
+    if (!item) {
+      return `#${bonus.api_type}`
+    }
+    if (item.api_name) {
+      return item.api_name
+    }
+    if (item.api_ship_id != null) {
+      return this.getMstShip(item.api_ship_id)?.api_name || `#ship:${item.api_ship_id}`
+    }
+    if (item.api_id == null) {
+      return `#${bonus.api_type}`
+    }
+    if (item.api_slotitem_level != null) {
+      return this.getMstEquip(item.api_id)?.api_name || `#equip:${item.api_id}`
+    }
+    // A bonus can name a material by its material id (1..8), which collides with
+    // the low slotitem ids -- id 6 is both 高速修復材 and 20.3cm連装砲. Materials
+    // win: they are what quests actually hand out down there, and resolving them
+    // to a token means the table translates them like the `api_material` slots.
+    if (item.api_id >= 1 && item.api_id <= REWARD_MATERIAL_TOKENS.length) {
+      return REWARD_MATERIAL_TOKENS[item.api_id - 1]
+    }
+    const useItemName = this.getMstUseItem(item.api_id)?.api_name
+    const equipName = this.getMstEquip(item.api_id)?.api_name
+    if (useItemName && !equipName) {
+      return useItemName
+    }
+    if (equipName && !useItemName) {
+      return equipName
+    }
+    return `#${bonus.api_type}:${item.api_id}`
+  }
+
+  logQuestEvent = (questId: string | number, event: string, rewards = '') => {
+    const dataItem: DataRow = [
+      new Date().getTime(),
+      event,
+      this.getQuestCategory(questId),
+      this.getQuestWikiId(questId),
+      this.getQuestTitle(questId),
+      rewards,
+    ]
+    dataCoManager.saveLog(CONST.typeList.quest, dataItem)
+    this.store.dispatch(addLog(dataItem, CONST.typeList.quest as DataType))
+  }
+
   handleRequest = (event: Event) => {
     const e = event as GameRequestEvent
     const urlpath = e.detail.path
@@ -220,6 +330,14 @@ class APIResolver {
       }
       break
     }
+
+    // 任务
+    case '/kcsapi/api_req_quest/start':
+    case '/kcsapi/api_req_quest/stop': {
+      const body = e.detail.body as API.APIReqQuestStartRequest
+      this.logQuestEvent(body.api_quest_id, questEventLabels[urlpath])
+      break
+    }
     }
   }
 
@@ -231,7 +349,46 @@ class APIResolver {
       this.updateUser()
       break
 
-      // Map selected rank
+    case '/kcsapi/api_req_quest/clearitemget': {
+      const body = e.detail.body as API.APIReqQuestClearitemgetResponse
+      const postBody = e.detail.postBody as API.APIReqQuestClearitemgetRequest
+      // observed as the four basics; iterate what was sent rather than assuming a length
+      const entries: RewardEntry[] = (body.api_material || []).map(
+        (amount, index) =>
+          [REWARD_MATERIAL_TOKENS[index] || `#material:${index}`, amount] as RewardEntry,
+      )
+      for (const bonus of (body.api_bounus || []) as unknown as QuestBonus[]) {
+        entries.push([this.getQuestRewardName(bonus), bonus.api_count])
+      }
+      dataCoManager.saveRaw('quest', {
+        time: new Date().toISOString(),
+        path: urlpath,
+        postBody,
+        body,
+      })
+      this.logQuestEvent(
+        postBody.api_quest_id,
+        questEventLabels[urlpath],
+        formatQuestRewards(entries),
+      )
+      break
+    }
+
+    case '/kcsapi/api_get_member/questlist': {
+      const body = e.detail.body as API.APIGetMemberQuestlistResponse
+      // api_list holds a filler number instead of a quest for empty slots
+      for (const quest of body.api_list || []) {
+        if (typeof quest === 'object' && quest?.api_no) {
+          this.questInfo[String(quest.api_no)] = {
+            title: quest.api_title,
+            category: quest.api_category,
+          }
+        }
+      }
+      break
+    }
+
+    // Map selected rank
     case '/kcsapi/api_get_member/mapinfo':{
       const body = e.detail.body as API.APIGetMemberMapinfoResponse
       for (const map of body.api_map_info) {

@@ -1,4 +1,4 @@
-import { Button, ControlGroup, FormGroup, InputGroup } from '@blueprintjs/core'
+import { Button, ControlGroup, FormGroup, InputGroup, Switch } from '@blueprintjs/core'
 // @ts-expect-error keeping importing remote for compat
 import { remote } from 'electron'
 import fs from 'fs-extra'
@@ -13,8 +13,10 @@ const { config, APPDATA_PATH } = window
 const { dialog } = remote
 
 const CONFIG_PATH = 'plugin.Akashic.dataPath'
+const RECORD_RAW_PATH = 'plugin.Akashic.recordRawResponses'
 
 const dataPathSelector: Selector<IState, string> = state => get(state.config, CONFIG_PATH, APPDATA_PATH) as string
+const recordRawSelector: Selector<IState, boolean> = state => get(state.config, RECORD_RAW_PATH, false) as boolean
 
 export const settingsClass: React.FC = () => {
   const lock = useRef(false)
@@ -22,6 +24,7 @@ export const settingsClass: React.FC = () => {
   const { t } = useTranslation('poi-plugin-akashic-records-ex')
 
   const configPath = useSelector(dataPathSelector)
+  const recordRaw = useSelector(recordRawSelector)
 
   const handleFilePickerOpen = async () => {
     if (lock.current) {
@@ -50,6 +53,13 @@ export const settingsClass: React.FC = () => {
             {t("RESET")}
           </Button>
         </ControlGroup>
+      </FormGroup>
+      <FormGroup label={t("RawRecordingLabel")} helperText={t("RawRecordingHelp")}>
+        <Switch
+          checked={recordRaw}
+          label={t("RawRecordingSwitch")}
+          onChange={() => config.set(RECORD_RAW_PATH, !recordRaw)}
+        />
       </FormGroup>
     </div>
   )

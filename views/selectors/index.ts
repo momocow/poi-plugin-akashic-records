@@ -35,6 +35,7 @@ const empty: PluginState = {
   createitem: emptyLogContentState,
   createship: emptyLogContentState,
   retirement: emptyLogContentState,
+  quest: emptyLogContentState,
   resource: emptyLogContentState,
 }
 
@@ -226,6 +227,7 @@ export const filterSelectors: Record<DataType, Selector<LogContentState, DataTab
   createship: logSelectorFactory(),
   createitem: logSelectorFactory(),
   retirement: logSelectorFactory(),
+  quest: logSelectorFactory(),
   resource: logSelectorFactory(),
 }
 
@@ -235,6 +237,7 @@ export const searchSelectors: Record<DataType, Selector<LogSearchSelectorFactory
   createship: logSearchSelectorFactory(),
   createitem: logSearchSelectorFactory(),
   retirement: logSearchSelectorFactory(),
+  quest: logSearchSelectorFactory(),
   resource: logSearchSelectorFactory(),
 }
 

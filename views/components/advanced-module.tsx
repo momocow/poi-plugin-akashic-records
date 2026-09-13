@@ -117,6 +117,7 @@ const AdvancedModule: React.FC = () => {
               <option key={3} value="createship">{t("Development")}</option>
               <option key={4} value="retirement">{t("Retirement")}</option>
               <option key={5} value="resource">{t("Resource")}</option>
+              <option key={6} value="quest">{t("Quest")}</option>
             </HTMLSelect>
             <Button onClick={saveLogHandle}>{t("Export")}</Button>
           </ControlGroup>

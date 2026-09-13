@@ -27,7 +27,12 @@ interface Window {
   isMain: boolean;
   _nickNameId: string;
   ipc: IPC;
-  toggleModal: (t: string, c: string) => void
+  toggleModal: (t: string, c: string) => void;
+  /**
+   * poi's legacy i18n shim. `resources.__` is a passthrough for game entity
+   * names unless poi-plugin-translator is installed, which replaces it.
+   */
+  i18n?: Record<string, { __?: (str: string) => string } | undefined>
 }
 
 declare var window: Window

@@ -104,6 +104,28 @@ class DataCoManager {
     return data
   }
 
+  /**
+   * Development aid: appends the untouched api payload a row was derived from,
+   * so a reward the resolver could not name can be inspected afterwards. Off
+   * unless `plugin.Akashic.recordRawResponses` is set, and read per call so the
+   * setting takes effect without a restart.
+   *
+   * Written under `raw` rather than the log type's own directory because
+   * `getData` globs every file below a type directory and parses it as csv.
+   */
+  saveRaw(kind: string, payload: unknown) {
+    if (!config.get('plugin.Akashic.recordRawResponses', false)) {
+      return
+    }
+    try {
+      const dir = path.join(DATA_PATH, 'akashic-records', this.nickNameId, 'raw')
+      fs.ensureDirSync(dir)
+      fs.appendFileSync(path.join(dir, `${kind}.jsonl`), `${JSON.stringify(payload)}\n`, 'utf8')
+    } catch (e) {
+      console.error('Failed to record raw response', e)
+    }
+  }
+
   saveLog(type: string, log: DataRow) {
     log = [log[0], ...log.slice(1).map(item => typeof item == 'string' ? encodeCell(item.trim()) : item)] as DataRow
     fs.ensureDirSync(path.join(DATA_PATH, 'akashic-records', this.nickNameId, type))

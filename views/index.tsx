@@ -98,7 +98,10 @@ const LogbookTabs = withTranslation('poi-plugin-akashic-records-ex')(
           <Tab id={5} title={t("Resource")} panel={
             <ErrorBoundary component={AkashicResourceLog} />
           } />
-          <Tab id={6} title={t("Others")} panel={
+          <Tab id={6} title={t("Quest")} panel={
+            <ErrorBoundary component={AkashicLog} contentType={CONST.typeList.quest}/>
+          } />
+          <Tab id={7} title={t("Others")} panel={
             <ErrorBoundary component={AkashicAdvancedModule} />
           } />
         </Tabs>

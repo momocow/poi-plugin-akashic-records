@@ -15,6 +15,7 @@ export default {
     createItem: 'createitem',
     resource: 'resource',
     retirement: 'retirement',
+    quest: 'quest',
   },
   eventList: {
     dataChange: 'datachange',

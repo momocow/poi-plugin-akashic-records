@@ -4,7 +4,7 @@ import { LogContentAction, LogContentState } from './log-content'
 import { PoiStoreLike } from '../utils/map-cell'
 
 const typeList: DataType[] = ['attack', 'mission', 'createship',
-  'createitem', 'resource', 'retirement']
+  'createitem', 'resource', 'retirement', 'quest']
 
 const entries = typeList.map((type) => [type, LogContentFactory(type)] as const)
 

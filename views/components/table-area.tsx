@@ -13,6 +13,8 @@ import { DataType, getTabs, TabVisibilityState } from '../reducers/tab'
 import { ConfigItem } from '../reducers/view-control'
 import { Popover } from 'views/components/etc/overlay'
 import Pagination from './pagination'
+import QuestId from './quest-id'
+import { REWARD_MATERIAL_TOKENS, translateQuestRewards } from '../utils/quest-reward'
 import { filterSelectors, logContentSelectorFactory } from '../selectors'
 import { LogContentState } from '../reducers/log-content'
 import { setActivePage, setFilterKey } from '../actions'
@@ -115,6 +117,24 @@ const AkashicRecordsTableTbodyItem: React.FC<TbodyItemT> = ({ data, contentType,
             return null
           } else if (i === 0) {
             return <td key={i}>{dateToString(new Date(+item))}</td>
+          } else if (contentType === 'quest' && i === 2) {
+            // stored as a stable english token so csv round-trips; translated for display
+            return <td key={i}>{item ? t(`QuestCategory${String(item)}`, { defaultValue: String(item) }) : ''}</td>
+          } else if (contentType === 'quest' && i === 5) {
+            // resource names are our own tokens; item names are the game's, and
+            // only translate when poi-plugin-translator has replaced the stub
+            return (
+              <td key={i} className="overflow" title={String(item)}>
+                {translateQuestRewards(String(item), (name) =>
+                  REWARD_MATERIAL_TOKENS.includes(name)
+                    ? t(`QuestReward${name}`, { defaultValue: name })
+                    : window.i18n?.resources?.__?.(name) ?? name,
+                )}
+              </td>
+            )
+          } else if (contentType === 'quest' && i === 3) {
+            // coloured by the row's category (i === 2), the way poi's task panel does
+            return <td key={i}><QuestId wikiId={String(item)} category={String(data[2] ?? '')} /></td>
           } else if (contentType === 'attack' && i === 1) {
             return <td key={i}>{parseMapInfo(String(item))}</td>
           } else if (contentType === 'attack' && (i === 4 || i === 5 || i === 7)) {

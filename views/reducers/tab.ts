@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 
 const { config } = window
 
-export type DataType = 'attack' | 'mission' | 'createitem' | 'createship' | 'retirement' | 'resource'
+export type DataType = 'attack' | 'mission' | 'createitem' | 'createship' | 'retirement' | 'resource' | 'quest'
 
 export type TabsState = string[]
 
@@ -46,6 +46,9 @@ const tableTab = {
   ],
   retirement: [
     'No.', "Time", "Type", "Ship Type", "Ship",
+  ],
+  quest: [
+    'No.', "Time", "Event", "Category", "Quest ID", "Quest", "Rewards",
   ],
   resource: [
     'No.', "Time", "Fuel", "Ammo", "Steel",

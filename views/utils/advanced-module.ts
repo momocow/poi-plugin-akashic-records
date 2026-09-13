@@ -81,6 +81,8 @@ function getDataTypeFromTitle(title: string): DataType {
     return 'resource'
   case getDataTypeTitle('retirement'):
     return 'retirement'
+  case getDataTypeTitle('quest'):
+    return 'quest'
   default:
     return 'attack'
   }
@@ -97,7 +99,8 @@ function resolveFile(fileContent: string) {
   case getDataTypeTitle('createitem'):
   case getDataTypeTitle('createship'):
   case getDataTypeTitle('resource'):
-  case getDataTypeTitle('retirement'): {
+  case getDataTypeTitle('retirement'):
+  case getDataTypeTitle('quest'): {
     logType = getDataTypeFromTitle(titleLine)
     const colCount = getColCount(logType)
     data = logs.map(rawLog => {
