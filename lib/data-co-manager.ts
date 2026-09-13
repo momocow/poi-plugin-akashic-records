@@ -26,6 +26,20 @@ export interface Data {
   [key: string]: DataTable
 }
 
+/**
+ * Encodes one cell for the comma separated log files.
+ *
+ * `getData` turns `%2C` back into a comma when it reads a row, so a comma has
+ * to be encoded on the way out. This used to run the *decode* in both
+ * directions, which meant any value containing a comma was written verbatim
+ * and split into extra columns when read back.
+ *
+ * `%` itself is deliberately left alone: escaping it would change how every
+ * already written file decodes.
+ */
+export const encodeCell = <T>(value: T): T | string =>
+  typeof value === 'string' ? value.replace(/,/g, '%2C') : value
+
 class DataCoManager {
   private nickNameId = ''
 
@@ -91,7 +105,7 @@ class DataCoManager {
   }
 
   saveLog(type: string, log: DataRow) {
-    log = [log[0], ...log.slice(1).map(item => typeof item == 'string' ? item.trim().replace(/%2C/g, ',') : item)]
+    log = [log[0], ...log.slice(1).map(item => typeof item == 'string' ? encodeCell(item.trim()) : item)] as DataRow
     fs.ensureDirSync(path.join(DATA_PATH, 'akashic-records', this.nickNameId, type))
     if (type === 'attack') {
       const date = new Date(log[0])

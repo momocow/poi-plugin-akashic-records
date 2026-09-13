@@ -6,7 +6,7 @@ import path from 'path'
 import { remote } from 'electron'
 import { get } from 'lodash'
 
-import { DataRow } from '../../lib/data-co-manager'
+import { DataRow, encodeCell } from '../../lib/data-co-manager'
 import CONST from '../../lib/constant'
 import { dateToString } from '../../lib/utils'
 import { pluginDataSelector } from '../selectors'
@@ -625,7 +625,7 @@ export async function importLog(
       fs.emptyDirSync(path.join(DATA_PATH, 'akashic-records', "tmp"))
       const saveData = []
       for (const item of newData) {
-        saveData.push(item.join(','))
+        saveData.push(item.map(encodeCell).join(','))
       }
       await fs.writeFile(path.join(DATA_PATH, 'akashic-records', "tmp", "data"), saveData.join('\n'))
       fs.emptyDirSync(path.join(DATA_PATH, 'akashic-records', nickNameId.toString(), logType.toLowerCase()))
