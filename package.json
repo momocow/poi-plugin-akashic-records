@@ -27,9 +27,15 @@
     "logbook"
   ],
   "author": {
-    "name": "Jennings Wu",
-    "link": "https://github.com/JenningsWu"
+    "name": "MomoCow",
+    "link": "https://github.com/momocow"
   },
+  "contributors": [
+    {
+      "name": "Jennings Wu",
+      "link": "https://github.com/JenningsWu"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/momocow/poi-plugin-akashic-records/issues"
